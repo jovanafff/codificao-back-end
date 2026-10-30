@@ -1,0 +1,14 @@
+{
+    "texto":"Hoje foi um dia incrivel",
+    "autor":"Jovana miranda",
+    "data":"2026-10-20",
+    "curtidas":[
+    {"nome":"maria clara"},
+    {"nome":"Gustavo"},
+    {"nome":"Carolina cruz"}
+    ],
+    "comentários":[
+        {"nome":"maria clara", "comentario":"maravilhosa"},
+        {"nome":"Gustavo", "comentario":"incrivel"}
+    ]
+}
