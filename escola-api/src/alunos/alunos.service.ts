@@ -42,7 +42,7 @@ export class AlunosService {
        orderBy?: string,
     orderDirection?: 'asc' | 'desc',){
         const skip = (page - 1) * limit;
-        const filter: any = {};
+        const filter: any = {ativo: true};
         const sort: any = {};
 
         if(nome){
@@ -76,7 +76,9 @@ export class AlunosService {
     }
     
     async findOne(id: string): Promise <Aluno>{
-       const aluno = await this.alunoModel.findById(id).exec();
+       //const aluno = await this.alunoModel.findById(id).exec();
+       const aluno = await this.alunoModel.findOne({_id: id, ativo: true}).exec();
+
        if(!aluno){
         throw new NotFoundException(`Aluno com ID ${id} não encontrado.`);
        }
@@ -92,10 +94,18 @@ export class AlunosService {
             return alunoAtualizado;
     }
     async remove(id: string): Promise<Aluno>{
-        const alunoRemovido = await this.alunoModel.findByIdAndDelete(id).exec();
+        const alunoRemovido = await this.alunoModel.findByIdAndUpdate(id, {ativo:false}, {new: true}).exec();
         if(!alunoRemovido){
             throw new NotFoundException(`Aluno com ID ${id} não encontrado.`)
         }
         return alunoRemovido;
+    }
+
+    async restore (id: string): Promise <Aluno>{
+        const alunoRestaurado = await this.alunoModel.findByIdAndUpdate(id, {ativo: true}, {new: true}).exec();
+        if(!alunoRestaurado){
+            throw new NotFoundException(`Aluno não encontrado pelo ID ${id}`)
+        }
+        return alunoRestaurado;
     }
 }
